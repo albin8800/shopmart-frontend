@@ -1,3 +1,6 @@
+"use client";
+
+
 export default function PopularCategories() {
   return (
     <div className="mx-5 md:mx-20 lg:mx-40 flex flex-col mt-8">
