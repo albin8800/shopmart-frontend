@@ -19,15 +19,17 @@ export default function Header() {
     <>
       <div className="min-h-[65px] w-full border-b border-b-[#E5E8EB] flex justify-between fixed z-50 top-0 left-0 bg-white">
 
-        {/* LEFT SECTION */}
-        <div className="ml-10 flex md:px-4">
-          {/* LOGO */}
+       
+        <div className="ml-10 flex md:px-4 items-center">
+          
+          <Link href="/">
           <div className="flex gap-4 items-center justify-center">
             <img src="/icons/logo.svg" className="w-4 h-4" alt="" />
             <h1 className="text-[18px] font-bold text-[#212B36]">ShopMart</h1>
           </div>
+          </Link>
 
-          {/* NAV LINKS */}
+          
           <div className="ml-32 items-center hidden md:flex">
             <ul className="flex gap-9">
               {navItems.map((item) => {
@@ -52,10 +54,10 @@ export default function Header() {
           </div>
         </div>
 
-        {/* RIGHT SECTION */}
+       
         <div className="mr-10 flex items-center gap-8">
 
-          {/* SEARCH BAR */}
+          
           <div className="hidden md:flex max-w-40 max-h-10 bg-[#F0F2F5] gap-2 rounded-lg items-center px-4 py-2">
             <img className="h-6 w-6" src="/icons/search.svg" alt="" />
             <input
@@ -65,10 +67,10 @@ export default function Header() {
             />
           </div>
 
-          {/* ICONS */}
+         
           <div className="flex items-center gap-2">
 
-            {/* WISHLIST */}
+            
             <Link href="/wishlist">
               <div
                 className={`
@@ -84,7 +86,7 @@ export default function Header() {
               </div>
             </Link>
 
-            {/* CART (YOU WROTE WRONG LINK — FIXED IT) */}
+            
             <Link href="/cart">
               <div
                 className={`

@@ -1,11 +1,19 @@
 import Breadcrumbs from "@/components/BreadCrumbs";
+import Footer from "@/components/Footer";
 import { products, reviews  } from "@/data/product";
 import { use } from "react";
 
+
 export default function ProductDetail({ params }) {
+
+
   const { id } = use(params);
 
   const product = products.find((p) => p.id == id); // get product by id
+
+  const addToCart = () => {
+    if(product.sizes?.length > 0 && !)
+  }
 
   if (!product) return <p className="mt-32 text-center">Product Not found.</p>;
 
@@ -137,7 +145,7 @@ export default function ProductDetail({ params }) {
               <div className="flex flex-col gap-3 md:gap-3" key={review.id}>
 
                 <div className="flex gap-3">
-                  <img className="w-10 h-10 rounded-full" src={review.avatar} alt="" />
+                  <img className="w-10 h-10 rounded-full object-cover" src={review.avatar} alt="" />
 
                   <div className="flex flex-col justify-center ">
                       <h1 className="text-[16px] font-medium text-[#121417]">{review.name}</h1>
@@ -152,14 +160,27 @@ export default function ProductDetail({ params }) {
                     ))}
                   </div>
 
-                  <p>
+                  <p className="text-[16px]">
                     {review.text}
                   </p>
+
+                  <div className="flex gap-9 ">
+                      <button className="flex gap-1 text-[16px] items-center">
+                        <img className="w-5 h-5" src="/icons/like.svg" alt="" />
+                        {review.likes}
+                      </button>
+                      <button className="flex gap-1 text-[16px] items-center">
+                        <img className="w-5 h-5" src="/icons/dislike.svg" alt="" />
+                        {review.dislikes}
+                      </button>
+                  </div>
 
                   </div>                
               
             ))}
           </div>
+
+          <Footer />
 
     </div>
   );

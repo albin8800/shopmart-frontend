@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 export default function FilterPopup({ name, filters, onClose }) {
   if (!name) return null;
 
@@ -10,6 +12,8 @@ export default function FilterPopup({ name, filters, onClose }) {
     minPrice = 0,
     maxPrice = 0,
   } = filters || {};
+
+  const [selectedSize, setSelectedSize] = useState(null);
 
   return (
     <>
@@ -28,7 +32,7 @@ export default function FilterPopup({ name, filters, onClose }) {
               <p className="text-[#637381]">No sizes available.</p>
             ) : (
               sizes.map((s) => (
-                <div key={s} className="px-4 py-2 border rounded-lg">
+                <div onClick={() => setSelectedSize((s))} key={s} className="px-4 py-2 border rounded-lg">
                   {s}
                 </div>
               ))
