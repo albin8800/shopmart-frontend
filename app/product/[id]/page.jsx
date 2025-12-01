@@ -1,19 +1,19 @@
+"use client";
+
 import Breadcrumbs from "@/components/BreadCrumbs";
 import Footer from "@/components/Footer";
 import { products, reviews  } from "@/data/product";
-import { use } from "react";
+import { use, useState } from "react";
 
 
 export default function ProductDetail({ params }) {
-
-
   const { id } = use(params);
 
   const product = products.find((p) => p.id == id); // get product by id
 
-  const addToCart = () => {
-    if(product.sizes?.length > 0 && !)
-  }
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
 
   if (!product) return <p className="mt-32 text-center">Product Not found.</p>;
 
@@ -43,7 +43,10 @@ export default function ProductDetail({ params }) {
           <p className="text-[16px] text-[#121417]">${product.price}</p>
         </div>
 
-        <button className="bg-[#2B8CED] px-5 py-3 rounded-lg mt-6 text-white text-[16px] font-bold w-32 hover:cursor-pointer hover:bg-[#2378ce] ">
+        <button
+          onClick={() => setShowPopup(true)}
+          className="bg-[#2B8CED] px-5 py-3 rounded-lg mt-6 text-white text-[16px] font-bold w-32 hover:cursor-pointer hover:bg-[#2378ce] "
+        >
           Add to Cart
         </button>
       </div>
@@ -132,7 +135,9 @@ export default function ProductDetail({ params }) {
                     ></div>
                   </div>
 
-                  <p className="text-[14px] text-[#61758A]">{Math.round(percent)}%</p>
+                  <p className="text-[14px] text-[#61758A]">
+                    {Math.round(percent)}%
+                  </p>
                 </div>
               );
             })}
@@ -140,48 +145,116 @@ export default function ProductDetail({ params }) {
         </div>
       </div>
 
-          <div className="flex flex-col gap-6 mt-8">
-            {(reviews || []).slice(0, 3).map((review) => (
-              <div className="flex flex-col gap-3 md:gap-3" key={review.id}>
+      <div className="flex flex-col gap-6 mt-8">
+        {(reviews || []).slice(0, 3).map((review) => (
+          <div className="flex flex-col gap-3 md:gap-3" key={review.id}>
+            <div className="flex gap-3">
+              <img
+                className="w-10 h-10 rounded-full object-cover"
+                src={review.avatar}
+                alt=""
+              />
 
-                <div className="flex gap-3">
-                  <img className="w-10 h-10 rounded-full object-cover" src={review.avatar} alt="" />
+              <div className="flex flex-col justify-center ">
+                <h1 className="text-[16px] font-medium text-[#121417]">
+                  {review.name}
+                </h1>
+                <p className="text-[14px] text-[#61758A]">{review.date}</p>
+              </div>
+            </div>
 
-                  <div className="flex flex-col justify-center ">
-                      <h1 className="text-[16px] font-medium text-[#121417]">{review.name}</h1>
-                      <p className="text-[14px] text-[#61758A]">{review.date}</p>
-                  </div>
+            <div className="flex">
+              {Array(5)
+                .fill(0)
+                .map((_, i) => (
+                  <img
+                    className="w-5 h-5"
+                    key={i}
+                    src={
+                      i < review.rating
+                        ? "/icons/star-filled.svg"
+                        : "/icons/star-empty.svg"
+                    }
+                    alt=""
+                  />
+                ))}
+            </div>
 
-                  </div>
+            <p className="text-[16px]">{review.text}</p>
 
-                  <div className="flex">
-                    {Array(5).fill(0).map((_, i) => (
-                      <img className="w-5 h-5" key={i} src={i< review.rating ? "/icons/star-filled.svg": "/icons/star-empty.svg"} alt="" />
+            <div className="flex gap-9 ">
+              <button className="flex gap-1 text-[16px] items-center">
+                <img className="w-5 h-5" src="/icons/like.svg" alt="" />
+                {review.likes}
+              </button>
+              <button className="flex gap-1 text-[16px] items-center">
+                <img className="w-5 h-5" src="/icons/dislike.svg" alt="" />
+                {review.dislikes}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Footer />
+
+      {showPopup && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+            onClick={() => setShowPopup(false)}
+          >
+            <div
+              className="fixed bottom-0 left-0 right-0 bg-white p-6 rounded-t-2xl z-50"
+              onClick={(e) => e.stopPropagation()} // STOP CLICK FROM CLOSING POPUP
+            >
+              <div className="fixed bottom-0 left-0 right-0 bg-white p-6 rounded-t-2xl z-50">
+                <div>
+                  <h3 className="text-[16px] font-bold mb-2">Size</h3>
+                  <div className="flex gap-2 flex-wrap">
+                    {product.sizes?.map((size) => (
+                      <button
+                        key={size}
+                        onClick={() => setSelectedSize(size)}
+                        className={`px-4 py-2 rounded-lg border ${
+                          selectedSize === size
+                            ? "bg-black text-white"
+                            : "bg-white text-black"
+                        }`}
+                      >
+                        {size}
+                      </button>
                     ))}
                   </div>
+                </div>
 
-                  <p className="text-[16px]">
-                    {review.text}
-                  </p>
-
-                  <div className="flex gap-9 ">
-                      <button className="flex gap-1 text-[16px] items-center">
-                        <img className="w-5 h-5" src="/icons/like.svg" alt="" />
-                        {review.likes}
+                <div className="mt-5">
+                  <h3 className="text-[16px] font-bold mb-2">Color</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {product.colors?.map((color) => (
+                      <button
+                        key={color}
+                        onClick={() => setSelectedColor(color)}
+                        className={`px-4 py-2 rounded-lg border ${
+                          selectedColor === color
+                            ? "bg-black text-white "
+                            : "bg-white text-black"
+                        }`}
+                      >
+                        {color}
                       </button>
-                      <button className="flex gap-1 text-[16px] items-center">
-                        <img className="w-5 h-5" src="/icons/dislike.svg" alt="" />
-                        {review.dislikes}
-                      </button>
+                    ))}
                   </div>
+                </div>
 
-                  </div>                
-              
-            ))}
+                <button className="w-32 mt-6 bg-[#2B8CED] text-white py-3 rounded-lg text-[16px] font-semibold">
+                  Confirm
+                </button>
+              </div>
+            </div>
           </div>
-
-          <Footer />
-
+        </>
+      )}
     </div>
   );
 }
