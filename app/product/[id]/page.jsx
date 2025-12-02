@@ -21,7 +21,7 @@ export default function ProductDetail({ params }) {
       return;
     }
 
-    if(!selectedSize) {
+    if(!selectedColor) {
       alert("Please Select Color");
       return;
     }
