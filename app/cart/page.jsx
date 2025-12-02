@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 
@@ -104,7 +105,7 @@ export default function CartPage() {
                     </div>
                 </div>
                 <div className="flex justify-end mt-9">
-                <button className="bg-[#2B8CED] text-white px-4 py-[9.5px] rounded-lg font-bold text-[14px] hover:cursor-pointer hover:bg-[#2378ce]">Proceed to Checkout</button>
+               <Link href='/checkout'> <button className="bg-[#2B8CED] text-white px-4 py-[9.5px] rounded-lg font-bold text-[14px] hover:cursor-pointer hover:bg-[#2378ce]">Proceed to Checkout</button></Link>
                 </div>
             </div>
 
