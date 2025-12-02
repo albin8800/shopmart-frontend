@@ -15,6 +15,45 @@ export default function ProductDetail({ params }) {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
 
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert("Please Select Size");
+      return;
+    }
+
+    if(!selectedSize) {
+      alert("Please Select Color");
+      return;
+    }
+
+    const cart = JSON.parse(localStorage.getItem("shopmart_cart") || "[]");
+
+    const existing = cart.find((item) => 
+        item.id === product.id &&
+    item.size === selectedSize &&
+    item.color === selectedColor
+    );
+
+    if(existing) {
+      existing.qty += 1;
+    } else {
+      cart.push({
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      image: product.image,
+      qty: 1,
+      size: selectedSize,
+      color: selectedColor,
+      })
+    }
+
+    localStorage.setItem("shopmart_cart", JSON.stringify(cart));
+
+    setShowPopup(false);
+    alert("Added to Cart");
+  }
+
   if (!product) return <p className="mt-32 text-center">Product Not found.</p>;
 
   return (
@@ -247,7 +286,7 @@ export default function ProductDetail({ params }) {
                   </div>
                 </div>
 
-                <button className="w-32 mt-6 bg-[#2B8CED] text-white py-3 rounded-lg text-[16px] font-semibold">
+                <button onClick={handleAddToCart} className="w-32 mt-6 bg-[#2B8CED] text-white py-3 rounded-lg text-[16px] font-semibold">
                   Confirm
                 </button>
               </div>
