@@ -20,7 +20,7 @@ export default function Footer() {
 
      
       <p className="text-center mt-6 text-[14px] md:text-[16px] text-[#61758A]">
-        ©2024 ShopSmart. All rights reserved.
+        ©2025x ShopSmart. All rights reserved.
       </p>
     </div>
   );
